@@ -8,7 +8,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "users")
-@NamedQuery(name = "User.deleteAllRows", query = "DELETE from User")
+@NamedQuery(name = "User.deleteAllRows", query = "DELETE from User")  //TODO: Remember this if you have to recreate from DB using JPABuddy!
 public class User
 {
     @Id
@@ -60,7 +60,6 @@ public class User
         return rolesAsStrings;
     }
 
-    //TODO Change when password is hashed
     public boolean verifyPassword(String pw){
         return BCrypt.checkpw(pw , this.userPass);
     }
@@ -69,10 +68,6 @@ public class User
         roles.add(userRole);
     }
 
-//    public void addBoat(Boat boat) {
-//        this.boats.add(boat);
-////        boat.getUsers().add(this);
-//    }
     public String getUserName() {
         return userName;
     }
