@@ -1,0 +1,40 @@
+GET http://localhost:8080/practice/api/info
+
+###  login with an admin
+POST http://localhost:8080/practice/api/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "qwer"
+}
+### access as an admin
+GET http://localhost:8080/practice/api/info/admin
+x-access-token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJleHAiOjE2Njc4MTk5ODQsImlhdCI6MTY2NzgxODE4NCwiaXNzdWVyIjoic2VtZXN0ZXJzdGFydGNvZGUtZGF0MyIsInVzZXJuYW1lIjoiYWRtaW4ifQ.WX94yQlvpmSEVK6LotJ3QECnsszJGktsbvyPyQaj2fY
+
+### test access requierments
+GET http://localhost:8080/practice/api/info/admin
+x-access-token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwicm9sZXMiOiJ1c2VyIiwiZXhwIjoxNjY3ODI2NDc3LCJpYXQiOjE2Njc4MjQ2NzcsImlzc3VlciI6InNlbWVzdGVyc3RhcnRjb2RlLWRhdDMiLCJ1c2VybmFtZSI6InVzZXIifQ.kzXSvjgwbqoqLo6487iMiidWGrTHT6Y2UgrYfUusxIA
+
+
+### login with an user
+POST http://localhost:8080/practice/api/login
+Content-Type: application/json
+
+{
+  "username": "user",
+  "password": "qwer"
+}
+
+### create new user
+POST http://localhost:8080/practice/api/info
+Content-Type: application/json
+
+{
+  "userName": "bobsen",
+  "userPass": "qwer"
+}
+
+### access as an user
+GET http://localhost:8080/practice/api/info/user
+x-access-token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwicm9sZXMiOiJ1c2VyIiwiZXhwIjoxNjcwNDIwODMxLCJpYXQiOjE2NzA0MTkwMzEsImlzc3VlciI6InNlbWVzdGVyc3RhcnRjb2RlLWRhdDMiLCJ1c2VybmFtZSI6InVzZXIifQ.D0iSnffJmryFmL20t8NkE1z-BT8CEufJFMO39_qD0MA
