@@ -19,30 +19,26 @@ public class UserDTO implements Serializable
     @NotNull
     @Size(min = 1, max = 255)
     private final String userPass;
-    @Size(max = 45)
-    private final String address;
-    @Size(max = 45)
-    private final String phone;
+//    @Size(max = 45)
+//    private final String address;
+//    @Size(max = 45)
+//    private final String phone;
 
-    public UserDTO(String userName, String userPass, String address, String phone) {
+    public UserDTO(String userName, String userPass) {
         this.userName = userName;
         this.userPass = userPass;
-        this.address = address;
-        this.phone = phone;
     }
 
-    public UserDTO(String userName, String address, String phone) {
+    public UserDTO(String userName) {
         this.userName = userName;
         this.userPass = "XXX";
-        this.address = address;
-        this.phone = phone;
     }
 
     public UserDTO(User user) {
         this.userName = user.getUserName();
         this.userPass = user.getUserPass();
-        this.address = user.getAddress();
-        this.phone = user.getPhone();
+//        this.address = user.getAddress();
+//        this.phone = user.getPhone();
     }
 
     public String getUserName() {
@@ -53,13 +49,13 @@ public class UserDTO implements Serializable
         return userPass;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
+//    public String getAddress() {
+//        return address;
+//    }
+//
+//    public String getPhone() {
+//        return phone;
+//    }
 
     public static List<UserDTO> getDTOs(List<User> users)
     {
@@ -71,7 +67,7 @@ public class UserDTO implements Serializable
     public static List<UserDTO> getDTOsWithoutPass(List<User> users)
     {
         List<UserDTO> userDTOList = new ArrayList<>();
-        users.forEach(user ->  userDTOList.add(new UserDTO(user.getUserName(), user.getAddress(), user.getPhone())));
+        users.forEach(user ->  userDTOList.add(new UserDTO(user.getUserName())));
         return userDTOList;
     }
 
@@ -92,8 +88,6 @@ public class UserDTO implements Serializable
     public String toString() {
         return "UserInnerDTO{" +
                 "userName='" + userName + '\'' +
-                ", address='" + address + '\'' +
-                ", phone='" + phone + '\'' +
                 '}';
     }
 }
