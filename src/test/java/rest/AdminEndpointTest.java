@@ -1,7 +1,6 @@
 package rest;
 
 import dtos.ConferenceDTO;
-import dtos.UserDTO;
 import entities.Conference;
 import entities.Role;
 import entities.Talk;
@@ -22,13 +21,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
-import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-public class AdinEndpointTest
+public class AdminEndpointTest
 {
 
     private static final int SERVER_PORT = 7777;
@@ -77,6 +75,7 @@ public class AdinEndpointTest
             em.createNamedQuery("Role.deleteAllRows").executeUpdate();
             em.createNamedQuery("User.deleteAllRows").executeUpdate();
             em.createNamedQuery("Talk.deleteAllRows").executeUpdate();
+            em.createNativeQuery("ALTER TABLE Talk AUTO_INCREMENT = 1").executeUpdate();
             em.createNamedQuery("Conference.deleteAllRows").executeUpdate();
 
             user = new User("Bo Bobsen", "test1");
@@ -107,6 +106,7 @@ public class AdinEndpointTest
             em.persist(c2);
             em.flush();
             em.persist(t1);
+            em.flush();
             em.persist(t2);
             em.persist(t3);
             em.flush();
@@ -176,6 +176,22 @@ public class AdinEndpointTest
                 .then()
                 .statusCode(401);
         //TODO: Maybe also test message?
+    }
+
+    @Test
+    public void deleteTalk() {
+        login("Ib Ibsen", "test2");
+        given()
+                .contentType("application/json")
+                .accept(ContentType.JSON)
+                .header("x-access-token", securityToken)
+                .when()
+                .delete("/admin/delete/talk/1")
+                .then()
+                .body("id", equalTo(1))
+                .body("topic", equalTo("t1"))
+                .body("duration", equalTo(1440))
+                .body("propsList", equalTo("PC, and anxity Medecin"));
     }
 
 }

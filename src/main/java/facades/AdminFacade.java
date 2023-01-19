@@ -118,4 +118,23 @@ public class AdminFacade
             em.close();
         }
     }
+
+    public TalkDTO deleteTalk(Integer talkId) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            Talk talkToDelete = em.find(Talk.class, talkId);
+            if (talkToDelete == null)
+                throw new WebApplicationException("Failed to delete talk, reason: Couldn't find talk with ID: "+talkId);
+            em.remove(talkToDelete);
+
+            em.flush();
+            em.getTransaction().commit();
+            return new TalkDTO(talkToDelete);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            em.close();
+        }
+    }
 }

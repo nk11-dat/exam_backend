@@ -1,14 +1,13 @@
 package dtos;
 
+import entities.Conference;
 import entities.Talk;
 import entities.User;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A DTO for the {@link entities.Talk} entity
@@ -48,18 +47,26 @@ public class TalkDTO implements Serializable
 
     public TalkDTO(Talk talk) {
         this.id = talk.getId();
-        this.conferenceConferenceName = talk.getConference().getConferenceName();
-        this.conferenceLocation = talk.getConference().getLocation();
-        this.conferenceCapacity = talk.getConference().getCapacity();
-        this.conferenceStrDate = talk.getConference().getStrDate();
+        if (talk.getConference() != null){ //needed for delete talk
+            this.conferenceConferenceName = talk.getConference().getConferenceName();
+            this.conferenceLocation = talk.getConference().getLocation();
+            this.conferenceCapacity = talk.getConference().getCapacity();
+            this.conferenceStrDate = talk.getConference().getStrDate();
+        }
         this.topic = talk.getTopic();
         this.duration = talk.getDuration();
         this.propsList = talk.getPropsList();
-        this.users = new LinkedHashSet<>();
+        this.users = null;
         if (talk.getUsers().size() > 0)
+            this.users = new LinkedHashSet<>();
             talk.getUsers().forEach(user -> this.users.add(new TalkDTO.UserDTO(user)));
     }
 
+    public static List<TalkDTO> getDTOs(List<Talk> talks) {
+        List<TalkDTO> talkDTOList = new ArrayList<>();
+        talks.forEach(talk -> talkDTOList.add(new TalkDTO(talk)));
+        return talkDTOList;
+    }
     public Integer getId() {
         return id;
     }

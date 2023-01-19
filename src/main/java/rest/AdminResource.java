@@ -16,7 +16,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author lam@cphbusiness.dk
@@ -62,13 +64,22 @@ public class AdminResource
         return GSON.toJson(conferenceDTOList);
     }
 
+    @GET
+    @Path("all/talks")
+    @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"speaker", "admin"})
+    public String getAllTalks() {
+        List<TalkDTO> talkDTOList = userFacade.getAllTalks();
+        return GSON.toJson(talkDTOList);
+    }
+
     //TODO: US4 = As an admin I would like to create new conferences, talks and speakers
     @POST
     @Path("post/conference")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed("admin")
-    public String createConference(String input) {
+    public String createConference(String input) { //As an admin I would like to create new conferences
         ConferenceDTO conferenceInput = GSON.fromJson(input, ConferenceDTO.class);
         ConferenceDTO createdConference = adminFacade.createConference(conferenceInput);
         return GSON.toJson(createdConference);
@@ -79,7 +90,7 @@ public class AdminResource
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed("admin")
-    public String createTalk(String input) {
+    public String createTalk(String input) { //As an admin I would like to create new talks
         TalkDTO talkInput = GSON.fromJson(input, TalkDTO.class);
         TalkDTO createdTalk = adminFacade.createTalk(talkInput);
         return GSON.toJson(createdTalk);
@@ -90,9 +101,20 @@ public class AdminResource
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @RolesAllowed("admin")
-    public String createUser(String input){
+    public String createUser(String input){ //As an admin I would like to create new speakers
         UserDTO userDTO = GSON.fromJson(input, UserDTO.class);
         UserDTO newSpeaker = userFacade.createUser(userDTO);
         return GSON.toJson(newSpeaker);
+    }
+
+    //TODO: US7 = As an admin I would like to delete a talk
+    @Path("delete/talk/{id}")
+    @DELETE
+    @RolesAllowed("admin")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deleteTalk(@PathParam("id") Integer talkId) throws ExecutionException, InterruptedException, IOException
+    {
+        TalkDTO deletedTalk = adminFacade.deleteTalk(talkId);
+        return GSON.toJson(deletedTalk);
     }
 }

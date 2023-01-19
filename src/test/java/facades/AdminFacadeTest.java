@@ -1,6 +1,7 @@
 package facades;
 
 import dtos.ConferenceDTO;
+import dtos.TalkDTO;
 import dtos.UserDTO;
 import entities.Conference;
 import entities.Role;
@@ -129,6 +130,30 @@ public class AdminFacadeTest
         // Check if count was increased
         conferenceList = query.getResultList();
         assertEquals(3, conferenceList.size()); //after boat creation
+    }
+
+    @Test
+    public void deleteTalk() {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        //find boat before it is deleted so that it can be compared later
+        Talk boatBefore = em.find(Talk.class, t1.getId());
+        TalkDTO beforeDTO = new TalkDTO(boatBefore);
+
+        //count talks before deletion to compare later
+        TypedQuery<Talk> query = em.createQuery("SELECT t FROM Talk t", Talk.class);
+        List<Talk> talkCountBefore = query.getResultList();
+
+        TalkDTO deletedBoat = facade.deleteTalk(t1.getId());
+
+        List<Talk> talkCountAfter = query.getResultList();
+
+        assertEquals(beforeDTO, deletedBoat); //check if the correct talk was deleted
+        assertEquals(talkCountBefore.size()-1, talkCountAfter.size());
+
+        em.getTransaction().commit();
+        em.close();
     }
 
 }

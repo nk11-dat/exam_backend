@@ -19,3 +19,8 @@ x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJ
   "strDate": "2025-01-19",
   "talks": []
 }
+
+### delete talk
+DELETE http://localhost:8080/exam/api/admin/delete/talk/1
+Content-Type: application/json
+x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJleHAiOjE2NzQxNDI4MzMsImlhdCI6MTY3NDE0MTAzMywiaXNzdWVyIjoic2VtZXN0ZXJzdGFydGNvZGUtZGF0MyIsInVzZXJuYW1lIjoiYWRtaW4ifQ.BAnH7lPL-EEAQAcKz5uLS-RqVl2a2zVwp9M7oWJ6St8

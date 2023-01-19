@@ -1,6 +1,7 @@
 package facades;
 
 import dtos.ConferenceDTO;
+import dtos.TalkDTO;
 import dtos.UserDTO;
 
 import javax.persistence.EntityManager;
@@ -9,6 +10,7 @@ import javax.persistence.TypedQuery;
 
 import entities.Conference;
 import entities.Role;
+import entities.Talk;
 import entities.User;
 import security.errorhandling.AuthenticationException;
 
@@ -94,6 +96,20 @@ public class UserFacade {
             TypedQuery<Conference> query = em.createQuery("SELECT c FROM Conference c", Conference.class);
             List<Conference> conferenceList = query.getResultList();
             return ConferenceDTO.getDTOs(conferenceList);
+        }
+        finally
+        {
+            em.close();
+        }
+    }
+
+    public List<TalkDTO> getAllTalks() {
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+            TypedQuery<Talk> query = em.createQuery("SELECT t FROM Talk t", Talk.class);
+            List<Talk> talkList = query.getResultList();
+            return TalkDTO.getDTOs(talkList);
         }
         finally
         {
