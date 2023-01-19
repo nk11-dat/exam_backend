@@ -59,6 +59,7 @@ public class AdminFacadeTest
             em.createNamedQuery("Role.deleteAllRows").executeUpdate();
             em.createNamedQuery("User.deleteAllRows").executeUpdate();
             em.createNamedQuery("Talk.deleteAllRows").executeUpdate();
+            em.createNativeQuery("ALTER TABLE Talk AUTO_INCREMENT = 1").executeUpdate();
             em.createNamedQuery("Conference.deleteAllRows").executeUpdate();
 
             user = new User("Bo Bobsen", "test1");
