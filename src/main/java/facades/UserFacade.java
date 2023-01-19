@@ -57,7 +57,7 @@ public class UserFacade {
         {
             User user = new User(userDTO.getUserName(), userDTO.getUserPass());
             em.getTransaction().begin();
-            Role role = em.find(Role.class, "user");
+            Role role = em.find(Role.class, "speaker");
             user.addRole(role);
             em.persist(user);
             em.getTransaction().commit();

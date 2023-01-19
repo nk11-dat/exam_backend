@@ -3,7 +3,6 @@ package rest;
 import dtos.UserDTO;
 import entities.Role;
 import entities.User;
-import errorhandling.API_Exception;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;

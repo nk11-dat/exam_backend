@@ -3,43 +3,59 @@ package entities;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.*;
 
 @Entity
 @Table(name = "users")
-@NamedQuery(name = "User.deleteAllRows", query = "DELETE from User")  //TODO: Remember this if you have to recreate from DB using JPABuddy!
+@NamedQuery(name = "User.deleteAllRows", query = "DELETE from User")
 public class User
 {
     @Id
     @Size(max = 25)
-    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "user_name", nullable = false, length = 25)
     private String userName;
 
     @Size(max = 255)
-    @Column(name = "user_pass")
+    @NotNull
+    @Column(name = "user_pass", nullable = false)
     private String userPass;
+
+    @Size(max = 45)
+    @Column(name = "profession", length = 45)
+    private String profession;
+
+    @Size(max = 20)
+    @Column(name = "gender", length = 20)
+    private String gender;
+
+    @ManyToMany
+    @JoinTable(name = "users_talk",
+            joinColumns = @JoinColumn(name = "user_name"),
+            inverseJoinColumns = @JoinColumn(name = "talk_id"))
+    private Set<Talk> talks = new LinkedHashSet<>();
 
     @ManyToMany
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_name"),
             inverseJoinColumns = @JoinColumn(name = "role_name"))
-    private List<Role> roles = new ArrayList<>();
+    private Set<Role> roles = new LinkedHashSet<>();
 
-    public User() {}
+    public User() {
+    }
 
     public User(String userName, String userPass) {
         this.userName = userName;
-        this.userPass = BCrypt.hashpw(userPass,BCrypt.gensalt());
+        this.userPass = userPass;
     }
 
-//    public User(String userName, String userPass, String address, String phone) {
-//        this.userName = userName;
-//        this.userPass = userPass;
-//        this.address = address;
-//        this.phone = phone;
-//    }
+    public User(String userName, String userPass, String profession, String gender) {
+        this.userName = userName;
+        this.userPass = userPass;
+        this.profession = profession;
+        this.gender = gender;
+    }
 
     public List<String> getRolesAsStrings() {
         if (roles.isEmpty()) {
@@ -52,6 +68,7 @@ public class User
         return rolesAsStrings;
     }
 
+    //TODO Change when password is hashed
     public boolean verifyPassword(String pw){
         return BCrypt.checkpw(pw , this.userPass);
     }
@@ -59,7 +76,6 @@ public class User
     public void addRole(Role userRole) {
         roles.add(userRole);
     }
-
     public String getUserName() {
         return userName;
     }
@@ -76,27 +92,35 @@ public class User
         this.userPass = userPass;
     }
 
-//    public String getAddress() {
-//        return address;
-//    }
-//
-//    public void setAddress(String address) {
-//        this.address = address;
-//    }
-//
-//    public String getPhone() {
-//        return phone;
-//    }
-//
-//    public void setPhone(String phone) {
-//        this.phone = phone;
-//    }
+    public String getProfession() {
+        return profession;
+    }
 
-    public List<Role> getRoles() {
+    public void setProfession(String profession) {
+        this.profession = profession;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public Set<Talk> getTalks() {
+        return talks;
+    }
+
+    public void setTalks(Set<Talk> talks) {
+        this.talks = talks;
+    }
+
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
@@ -118,6 +142,9 @@ public class User
         return "User{" +
                 "userName='" + userName + '\'' +
                 ", userPass='" + userPass + '\'' +
+                ", profession='" + profession + '\'' +
+                ", gender='" + gender + '\'' +
+                ", talks=" + talks +
                 ", roles=" + roles +
                 '}';
     }
