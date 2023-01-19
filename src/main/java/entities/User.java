@@ -47,12 +47,12 @@ public class User
 
     public User(String userName, String userPass) {
         this.userName = userName;
-        this.userPass = userPass;
+        this.userPass = BCrypt.hashpw(userPass,BCrypt.gensalt());
     }
 
     public User(String userName, String userPass, String profession, String gender) {
         this.userName = userName;
-        this.userPass = userPass;
+        this.userPass = BCrypt.hashpw(userPass,BCrypt.gensalt());
         this.profession = profession;
         this.gender = gender;
     }
@@ -68,7 +68,6 @@ public class User
         return rolesAsStrings;
     }
 
-    //TODO Change when password is hashed
     public boolean verifyPassword(String pw){
         return BCrypt.checkpw(pw , this.userPass);
     }
