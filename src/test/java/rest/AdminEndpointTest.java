@@ -1,6 +1,7 @@
 package rest;
 
 import dtos.ConferenceDTO;
+import dtos.UpdateConferenceDTO;
 import entities.Conference;
 import entities.Role;
 import entities.Talk;
@@ -21,6 +22,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -176,6 +179,35 @@ public class AdminEndpointTest
                 .then()
                 .statusCode(401);
         //TODO: Maybe also test message?
+    }
+
+    @Test
+    public void UpdateCon() {
+        login("Ib Ibsen", "test2");
+        Set<UpdateConferenceDTO.TalkDTO1.UserDTO1> userDTO1s = new LinkedHashSet<>();
+        userDTO1s.add(new UpdateConferenceDTO.TalkDTO1.UserDTO1(user.getUserName()));
+
+        UpdateConferenceDTO.TalkDTO1 tDTO = new UpdateConferenceDTO.TalkDTO1(1, userDTO1s);
+        Set<UpdateConferenceDTO.TalkDTO1> talkDTO1s = new LinkedHashSet<>();
+        talkDTO1s.add(tDTO);
+
+        UpdateConferenceDTO changeTo = new UpdateConferenceDTO("24timer", "her", 1337, "2025-01-01", talkDTO1s);
+
+        given()
+                .contentType("application/json")
+                .accept(ContentType.JSON)
+                .header("x-access-token", securityToken)
+                .body(changeTo)
+                .when()
+                .put("/admin/put/conference")
+                .then()
+                .body("conferenceName", equalTo("24timer"))
+                .body("location", equalTo("her"))
+                .body("capacity", equalTo(1337))
+                .body("strDate", equalTo("2025-01-01"))
+                .body("talks[0].id", equalTo((int)tDTO.getId()))
+                .body("talks[0].users[0].userName", equalTo(user.getUserName()));
+        //TODO: Kunne ikke finde ud af at sammenligne med hele Set'et  :(
     }
 
     @Test

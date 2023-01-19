@@ -1,8 +1,8 @@
 package facades;
 
 import dtos.ConferenceDTO;
+import dtos.UpdateConferenceDTO;
 import dtos.TalkDTO;
-import dtos.UserDTO;
 import entities.Conference;
 import entities.Role;
 import entities.Talk;
@@ -16,7 +16,10 @@ import utils.EMF_Creator;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -31,7 +34,7 @@ public class AdminFacadeTest
     private static AdminFacade facade;
 
     User user, admin, both;
-    Role userRole, adminRole;
+    Role speakerRole, adminRole;
     Talk t1, t2, t3;
     Conference c1, c2;
 
@@ -74,13 +77,13 @@ public class AdminFacadeTest
             if(admin.getUserPass().equals("test")||user.getUserPass().equals("test")||both.getUserPass().equals("test"))
                 throw new UnsupportedOperationException("You have not changed the passwords");
 
-            userRole = new Role("speaker");
+            speakerRole = new Role("speaker");
             adminRole = new Role("admin");
-            user.addRole(userRole);
+            user.addRole(speakerRole);
             admin.addRole(adminRole);
-            both.addRole(userRole);
+            both.addRole(speakerRole);
             both.addRole(adminRole);
-            em.persist(userRole);
+            em.persist(speakerRole);
             em.persist(adminRole);
 
             em.persist(user);
@@ -118,19 +121,52 @@ public class AdminFacadeTest
         EntityManager em = emf.createEntityManager();
         TypedQuery<Conference> query = em.createQuery("SELECT c FROM Conference c", Conference.class);
         List<Conference> conferenceList = query.getResultList();
-        assertEquals(2, conferenceList.size()); //before boat creation
+        assertEquals(2, conferenceList.size()); //before Conference creation
 
         ConferenceDTO input = new ConferenceDTO("testCon", "Here or there", 10, "2024-05-11",null);
         ConferenceDTO createdCon = facade.createConference(input);
 
-        // Check if the correct boat was created
+        // Check if the correct Conference was created
         Conference actual = em.find(Conference.class, "testCon");
         ConferenceDTO foundCon = new ConferenceDTO(actual);
         assertEquals(createdCon, foundCon);
 
         // Check if count was increased
         conferenceList = query.getResultList();
-        assertEquals(3, conferenceList.size()); //after boat creation
+        assertEquals(3, conferenceList.size()); //after Conference creation
+    }
+
+    @Test
+    public void updateConference() throws Exception {
+        EntityManager em = emf.createEntityManager();
+        Conference ConferenceBefore = em.find(Conference.class, c1.getConferenceName());
+        UpdateConferenceDTO beforeChangeDTO = new UpdateConferenceDTO(ConferenceBefore);
+
+        Set<UpdateConferenceDTO.TalkDTO1.UserDTO1> userDTO1s = new LinkedHashSet<>();
+        userDTO1s.add(new UpdateConferenceDTO.TalkDTO1.UserDTO1(user.getUserName()));
+
+        Set<UpdateConferenceDTO.TalkDTO1> talkDTO1s = new LinkedHashSet<>();
+        talkDTO1s.add(new UpdateConferenceDTO.TalkDTO1(1, userDTO1s));
+
+        UpdateConferenceDTO changeTo = new UpdateConferenceDTO("24timer", "her", 1337, "2025-01-23", talkDTO1s);
+
+        UpdateConferenceDTO afterChange = facade.updateConference(changeTo);
+
+        //Compare returned value with input
+        assertEquals(changeTo, afterChange);
+
+//        //TODO: måske overkill...
+//        //Compare returned value with what's stores in the DB
+//        Conference conferenceAfter = em.find(Conference.class, c1.getConferenceName());
+//        em.refresh(conferenceAfter);
+//        for (Talk talk : conferenceAfter.getTalks()) {
+//            em.refresh(talk);
+//        }
+//        em.refresh(conferenceAfter);
+//
+//        UpdateConferenceDTO afterChangeDTO = new UpdateConferenceDTO(conferenceAfter);
+//        assertEquals(afterChange, afterChangeDTO);
+        em.close();
     }
 
     @Test
@@ -138,19 +174,19 @@ public class AdminFacadeTest
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
 
-        //find boat before it is deleted so that it can be compared later
-        Talk boatBefore = em.find(Talk.class, t1.getId());
-        TalkDTO beforeDTO = new TalkDTO(boatBefore);
+        //find Conference before it is deleted so that it can be compared later
+        Talk ConferenceBefore = em.find(Talk.class, t1.getId());
+        TalkDTO beforeDTO = new TalkDTO(ConferenceBefore);
 
         //count talks before deletion to compare later
         TypedQuery<Talk> query = em.createQuery("SELECT t FROM Talk t", Talk.class);
         List<Talk> talkCountBefore = query.getResultList();
 
-        TalkDTO deletedBoat = facade.deleteTalk(t1.getId());
+        TalkDTO deletedConference = facade.deleteTalk(t1.getId());
 
         List<Talk> talkCountAfter = query.getResultList();
 
-        assertEquals(beforeDTO, deletedBoat); //check if the correct talk was deleted
+        assertEquals(beforeDTO, deletedConference); //check if the correct talk was deleted
         assertEquals(talkCountBefore.size()-1, talkCountAfter.size());
 
         em.getTransaction().commit();
