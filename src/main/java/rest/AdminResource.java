@@ -141,6 +141,8 @@ public class AdminResource
         UpdateConferenceDTO conferenceInput = GSON.fromJson(input, UpdateConferenceDTO.class);
         UpdateConferenceDTO updatedConference = adminFacade.updateConference(conferenceInput);
         return GSON.toJson(updatedConference);
+
+        //last attempt before i copy into new project...
     }
 
 
