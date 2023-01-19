@@ -76,7 +76,7 @@ public class UserEndpointTest
             if(admin.getUserPass().equals("test")||user.getUserPass().equals("test")||both.getUserPass().equals("test"))
                 throw new UnsupportedOperationException("You have not changed the passwords");
 
-            Role userRole = new Role("user");
+            Role userRole = new Role("speaker");
             Role adminRole = new Role("admin");
             user.addRole(userRole);
             admin.addRole(adminRole);
@@ -122,7 +122,7 @@ public class UserEndpointTest
     }
 
     @Test
-    public void testGetAllusers() {
+    public void getAllSpeakers() {
         login("user", "test1");
         List<UserDTO> userDTOs =
         given()
@@ -130,7 +130,7 @@ public class UserEndpointTest
                 .accept(ContentType.JSON)
                 .header("x-access-token", securityToken)
                 .when()
-                .get("/user/all").then()
+                .get("/user/all/speakers").then()
                 .statusCode(200).extract().body().jsonPath().getList("", UserDTO.class);
 
         System.out.println();

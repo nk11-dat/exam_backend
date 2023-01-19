@@ -3,15 +3,19 @@ POST http://localhost:8080/practice/api/login
 Content-Type: application/json
 
 {
-  "username": "user",
-  "password": "test123"
+  "username": "nicki",
+  "password": "qwer"
 }
 
-### Get All user
-GET http://localhost:8080/practice/api/user/all
+### Get All speakers
+GET http://localhost:8080/practice/api/user/all/speakers
 Content-Type: application/json
 x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwicm9sZXMiOiJvd25lciIsImV4cCI6MTY3MzYyMTY3NiwiaWF0IjoxNjczNjE5ODc2LCJpc3N1ZXIiOiJzZW1lc3RlcnN0YXJ0Y29kZS1kYXQzIiwidXNlcm5hbWUiOiJ1c2VyIn0.j4ANa2UuWVf5kVFUQDhXPaKSDgvWvwrH0uN3OO4dR0A
 
+### Get All conferences
+GET http://localhost:8080/practice/api/user/all/conferences
+Content-Type: application/json
+x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwicm9sZXMiOiJvd25lciIsImV4cCI6MTY3MzYyMTY3NiwiaWF0IjoxNjczNjE5ODc2LCJpc3N1ZXIiOiJzZW1lc3RlcnN0YXJ0Y29kZS1kYXQzIiwidXNlcm5hbWUiOiJ1c2VyIn0.j4ANa2UuWVf5kVFUQDhXPaKSDgvWvwrH0uN3OO4dR0A
 
 
 

@@ -54,7 +54,7 @@ public class UserFacadeTest {
             if(admin.getUserPass().equals("test")||user.getUserPass().equals("test")||both.getUserPass().equals("test"))
                 throw new UnsupportedOperationException("You have not changed the passwords");
 
-            userRole = new Role("user");
+            userRole = new Role("speaker");
             adminRole = new Role("admin");
             user.addRole(userRole);
             admin.addRole(adminRole);
@@ -85,8 +85,8 @@ public class UserFacadeTest {
     }
 
     @Test
-    public void getAllusers() throws Exception {
-        List<UserDTO> actual = facade.getAllUsers();
+    public void getAllSpeakers() throws Exception {
+        List<UserDTO> actual = facade.getAllSpeakers();
         assertEquals(2, actual.size());
         //FIXME: Compare elements of list...  should i:
         // - include id's with the DTO?

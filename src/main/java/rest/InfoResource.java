@@ -61,7 +61,7 @@ public class InfoResource
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("user")
-    @RolesAllowed({"user", "owner", "admin"}) //add all userroles here
+    @RolesAllowed({"user", "speaker", "admin"}) //add all userroles here
     public String getFromUser() {
         String thisuserName = securityContext.getUserPrincipal().getName();
         return "{\"msg\": \"Hello: " + thisuserName + "\"}";

@@ -2,6 +2,7 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dtos.ConferenceDTO;
 import dtos.UserDTO;
 import facades.UserFacade;
 import utils.EMF_Creator;
@@ -40,14 +41,22 @@ public class UserResource
     }
 
     @GET
-    @Path("all")
+    @Path("all/speakers")
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed({"user", "admin"})
-    public String getListOfOwners() {
-        //US1 = As a user I would like to see all owners
-        List<UserDTO> userDTOList = FACADE.getAllUsers();
-        System.out.println("");
+    @RolesAllowed({"user", "speaker", "admin"})
+    public String getAllSpeakers() {
+        List<UserDTO> userDTOList = FACADE.getAllSpeakers();
         return GSON.toJson(userDTOList);
+    }
+
+    @GET
+    @Path("all/conferences")
+    @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"speaker", "admin"})
+    public String getAllConferences() {
+        //US1 = As a user I would like to see all conferences
+        List<ConferenceDTO> conferenceDTOList = FACADE.getAllConferences();
+        return GSON.toJson(conferenceDTOList);
     }
 
     //TODO: HUSK NÅR DU LAVER NY Resource AT TILFØJE DEN TIL ApplicationConfig!!!

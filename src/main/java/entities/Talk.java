@@ -56,7 +56,6 @@ public class Talk
         this.propsList = propsList;
         this.users = users;
     }
-
     public Integer getId() {
         return id;
     }

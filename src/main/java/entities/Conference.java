@@ -1,17 +1,13 @@
 package entities;
 
-import errorhandling.API_Exception;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "conference")
-@NamedQuery(name = "Conference.deleteAllRows", query = "DELETE from Conference ")
 public class Conference
 {
     @Id
@@ -28,36 +24,12 @@ public class Conference
     @Column(name = "capacity", nullable = false)
     private Integer capacity;
 
-    @Column(name = "date")
-    private LocalDate date;
+    @Size(max = 45)
+    @Column(name = "strDate", length = 45)
+    private String strDate;
 
     @OneToMany(mappedBy = "conference")
     private Set<Talk> talks = new LinkedHashSet<>();
-
-    public Conference() {
-    }
-
-    public Conference(String conferenceName, String location, Integer capacity) {
-        this.conferenceName = conferenceName;
-        this.location = location;
-        this.capacity = capacity;
-    }
-
-    public Conference(String conferenceName, String location, Integer capacity, LocalDate date) {
-        this.conferenceName = conferenceName;
-        this.location = location;
-        this.capacity = capacity;
-        this.date = date;
-    }
-
-    public void addTalk(Talk talk) throws API_Exception {
-        if (talks.size() < capacity)
-        {
-            talks.add(talk);
-            talk.setConference(this);
-        }
-        else throw new API_Exception("Harbour " + this.conferenceName + ", is at max capacity", this.capacity); //google says errorcode 6 is overflow error ¯\_(ツ)_/¯
-    }
 
     public String getConferenceName() {
         return conferenceName;
@@ -83,12 +55,12 @@ public class Conference
         this.capacity = capacity;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public String getStrDate() {
+        return strDate;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setStrDate(String strDate) {
+        this.strDate = strDate;
     }
 
     public Set<Talk> getTalks() {

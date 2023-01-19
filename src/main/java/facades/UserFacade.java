@@ -1,11 +1,13 @@
 package facades;
 
+import dtos.ConferenceDTO;
 import dtos.UserDTO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 
+import entities.Conference;
 import entities.Role;
 import entities.User;
 import security.errorhandling.AuthenticationException;
@@ -70,14 +72,28 @@ public class UserFacade {
     }
 
 
-    public List<UserDTO> getAllUsers() {
+    public List<UserDTO> getAllSpeakers() {
         EntityManager em = emf.createEntityManager();
         try
         {
             TypedQuery<User> query = em.createQuery("SELECT u FROM User u JOIN u.roles r WHERE r.roleName = :role", User.class);
-            query.setParameter("role", "user");
+            query.setParameter("role", "speaker");
             List<User> owners = query.getResultList();
             return UserDTO.getDTOsWithoutPass(owners);
+        }
+        finally
+        {
+            em.close();
+        }
+    }
+
+    public List<ConferenceDTO> getAllConferences() {
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+            TypedQuery<Conference> query = em.createQuery("SELECT c FROM Conference c", Conference.class);
+            List<Conference> conferenceList = query.getResultList();
+            return ConferenceDTO.getDTOs(conferenceList);
         }
         finally
         {
