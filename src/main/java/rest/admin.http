@@ -1,0 +1,21 @@
+### create new token (admin)
+POST http://localhost:8080/exam/api/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "qwer"
+}
+
+### Create conference
+POST http://localhost:8080/exam/api/admin/post/conference
+Content-Type: application/json
+x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJleHAiOjE2NzQxMzY4NzQsImlhdCI6MTY3NDEzNTA3NCwiaXNzdWVyIjoic2VtZXN0ZXJzdGFydGNvZGUtZGF0MyIsInVzZXJuYW1lIjoiYWRtaW4ifQ.1dyZLEJYSF1Ouj5nMc5ussAznOfCPRYQuJ6YI7a7YcM
+
+{
+  "conferenceName": "http",
+  "location": "http 11",
+  "capacity": 55,
+  "strDate": "2025-01-19",
+  "talks": []
+}
