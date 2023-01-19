@@ -1,7 +1,10 @@
 package rest;
 
+import dtos.ConferenceDTO;
 import dtos.UserDTO;
+import entities.Conference;
 import entities.Role;
+import entities.Talk;
 import entities.User;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -59,6 +62,8 @@ public class UserEndpointTest
     }
 
     User user, admin, both;
+    Talk t1, t2, t3;
+    Conference c1, c2;
     // Setup the DataBase (used by the test-server and this test) in a known state BEFORE EACH TEST
     //TODO -- Make sure to change the EntityClass used below to use YOUR OWN (renamed) Entity class
     @BeforeEach
@@ -68,10 +73,17 @@ public class UserEndpointTest
             em.getTransaction().begin();
             em.createNamedQuery("Role.deleteAllRows").executeUpdate();
             em.createNamedQuery("User.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Talk.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Conference.deleteAllRows").executeUpdate();
 
-            user = new User("user", "test1");
-            admin = new User("admin", "test2");
-            both = new User("user_admin", "test3");
+            user = new User("Bo Bobsen", "test1");
+            admin = new User("Ib Ibsen", "test2");
+            both = new User("Ib Bobsen", "test3");
+            c1 = new Conference("24timer", "location1", 1, "2023-01-19");
+            c2 = new Conference("eksamen", "location2", 3, "2023-01-23");
+            t1 = new Talk(c1, "t1", 1440, "PC, and anxity Medecin");
+            t2 = new Talk(c1, "t2", 13, "PC, and anxity Medecin");
+            t3 = new Talk(c2, "t3", 30, "PC, and anxity Medecin");
 
             if(admin.getUserPass().equals("test")||user.getUserPass().equals("test")||both.getUserPass().equals("test"))
                 throw new UnsupportedOperationException("You have not changed the passwords");
@@ -88,9 +100,18 @@ public class UserEndpointTest
             em.persist(user);
             em.persist(admin);
             em.persist(both);
+            em.persist(c1);
+            em.persist(c2);
+            em.flush();
+            em.persist(t1);
+            em.persist(t2);
+            em.persist(t3);
             em.flush();
 
             em.getTransaction().commit();
+
+            em.refresh(c1);
+            em.refresh(c2);
         } finally {
             em.close();
         }
@@ -122,8 +143,26 @@ public class UserEndpointTest
     }
 
     @Test
+    public void getAllConferences() {
+        login("Bo Bobsen", "test1");
+        List<ConferenceDTO> ConferenceDTO =
+                given()
+                        .contentType("application/json")
+                        .accept(ContentType.JSON)
+                        .header("x-access-token", securityToken)
+                        .when()
+                        .get("/user/all/conferences").then()
+                        .statusCode(200).extract().body().jsonPath().getList("", ConferenceDTO.class);
+
+        ConferenceDTO cDTO1 = new ConferenceDTO(c1);
+        ConferenceDTO cDTO2 = new ConferenceDTO(c2);
+
+        assertThat(ConferenceDTO, containsInAnyOrder(cDTO1, cDTO2));  //compares using DTOs equals method, which only looks at username
+    }
+
+    @Test
     public void getAllSpeakers() {
-        login("user", "test1");
+        login("Bo Bobsen", "test1");
         List<UserDTO> userDTOs =
         given()
                 .contentType("application/json")

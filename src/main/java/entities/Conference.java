@@ -8,6 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "conference")
+@NamedQuery(name = "Conference.deleteAllRows", query = "DELETE from Conference")
 public class Conference
 {
     @Id
@@ -30,6 +31,24 @@ public class Conference
 
     @OneToMany(mappedBy = "conference")
     private Set<Talk> talks = new LinkedHashSet<>();
+
+    public Conference() {
+    }
+
+    public Conference(String conferenceName, String location, Integer capacity, String strDate) {
+        this.conferenceName = conferenceName;
+        this.location = location;
+        this.capacity = capacity;
+        this.strDate = strDate;
+    }
+
+    public Conference(String conferenceName, String location, Integer capacity, String strDate, Set<Talk> talks) {
+        this.conferenceName = conferenceName;
+        this.location = location;
+        this.capacity = capacity;
+        this.strDate = strDate;
+        this.talks = talks;
+    }
 
     public String getConferenceName() {
         return conferenceName;
