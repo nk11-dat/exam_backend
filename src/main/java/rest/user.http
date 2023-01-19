@@ -1,5 +1,5 @@
 ### create new token (user)
-POST http://localhost:8080/practice/api/login
+POST http://localhost:8080/exam/api/login
 Content-Type: application/json
 
 {
@@ -8,14 +8,14 @@ Content-Type: application/json
 }
 
 ### Get All speakers
-GET http://localhost:8080/practice/api/user/all/speakers
+GET http://localhost:8080/exam/api/user/all/speakers
 Content-Type: application/json
-x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwicm9sZXMiOiJvd25lciIsImV4cCI6MTY3MzYyMTY3NiwiaWF0IjoxNjczNjE5ODc2LCJpc3N1ZXIiOiJzZW1lc3RlcnN0YXJ0Y29kZS1kYXQzIiwidXNlcm5hbWUiOiJ1c2VyIn0.j4ANa2UuWVf5kVFUQDhXPaKSDgvWvwrH0uN3OO4dR0A
+x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuaWNraSIsInJvbGVzIjoic3BlYWtlciIsImV4cCI6MTY3NDEzMTYxNiwiaWF0IjoxNjc0MTI5ODE2LCJpc3N1ZXIiOiJzZW1lc3RlcnN0YXJ0Y29kZS1kYXQzIiwidXNlcm5hbWUiOiJuaWNraSJ9.7hRcQ1lQVeLDBAF43yRlwPX6F6GXmA2wMbq--dbYb3I
 
 ### Get All conferences
-GET http://localhost:8080/practice/api/user/all/conferences
+GET http://localhost:8080/exam/api/user/all/conferences
 Content-Type: application/json
-x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwicm9sZXMiOiJvd25lciIsImV4cCI6MTY3MzYyMTY3NiwiaWF0IjoxNjczNjE5ODc2LCJpc3N1ZXIiOiJzZW1lc3RlcnN0YXJ0Y29kZS1kYXQzIiwidXNlcm5hbWUiOiJ1c2VyIn0.j4ANa2UuWVf5kVFUQDhXPaKSDgvWvwrH0uN3OO4dR0A
+x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuaWNraSIsInJvbGVzIjoic3BlYWtlciIsImV4cCI6MTY3NDEzMTYxNiwiaWF0IjoxNjc0MTI5ODE2LCJpc3N1ZXIiOiJzZW1lc3RlcnN0YXJ0Y29kZS1kYXQzIiwidXNlcm5hbWUiOiJuaWNraSJ9.7hRcQ1lQVeLDBAF43yRlwPX6F6GXmA2wMbq--dbYb3I
 
 
 
