@@ -11,6 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "conference")
+@NamedQuery(name = "Conference.deleteAllRows", query = "DELETE from Conference ")
 public class Conference
 {
     @Id
