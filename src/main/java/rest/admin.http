@@ -19,6 +19,35 @@ x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJ
   "strDate": "2025-01-19",
   "talks": []
 }
+### Update Conference
+PUT http://localhost:8080/exam/api/admin/put/conference
+Content-Type: application/json
+x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJleHAiOjE2NzQxNTQ1ODEsImlhdCI6MTY3NDE1Mjc4MSwiaXNzdWVyIjoic2VtZXN0ZXJzdGFydGNvZGUtZGF0MyIsInVzZXJuYW1lIjoiYWRtaW4ifQ.wSpvxYnKt9EIGL4G9wGeSj4m3kjFBaDQ2ZpRi0IanQY
+
+{
+  "conferenceName": "Test1",
+  "location": "her",
+  "capacity": 1337,
+  "strDate": "2025-12-12",
+  "talks": [
+    {
+      "id": 2,
+      "users": [
+        {
+          "userName": "nicki"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "users": [
+        {
+          "userName": "nicki"
+        }
+      ]
+    }
+  ]
+}
 
 ### delete talk
 DELETE http://localhost:8080/exam/api/admin/delete/talk/1

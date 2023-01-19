@@ -3,6 +3,7 @@ package entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.ws.rs.WebApplicationException;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -56,6 +57,13 @@ public class Talk
         this.propsList = propsList;
         this.users = users;
     }
+
+    public void addSpeaker(User speaker) {
+//        if (speaker.getRoles().contains(new Role("speaker"))) //Skulle tilføje en entitymanger for at finde den rigtige role entity...
+        this.users.add(speaker);
+//        else throw new WebApplicationException("Only speakers are allowed to host talks. User: " + speaker.getUserName() + ", is not a speaker.");
+    }
+
     public Integer getId() {
         return id;
     }

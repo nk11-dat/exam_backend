@@ -2,6 +2,7 @@ package facades;
 
 import dtos.ConferenceDTO;
 import dtos.TalkDTO;
+import dtos.UpdateConferenceDTO;
 import dtos.UserDTO;
 import entities.Conference;
 import entities.Role;
@@ -12,6 +13,8 @@ import security.errorhandling.AuthenticationException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.WebApplicationException;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * @author lam@cphbusiness.dk
@@ -133,6 +136,55 @@ public class AdminFacade
             return new TalkDTO(talkToDelete);
         } catch (Exception e) {
             throw new RuntimeException(e);
+        } finally {
+            em.close();
+        }
+    }
+
+    public UpdateConferenceDTO updateConference(UpdateConferenceDTO conferenceInput) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            //Check if ID is somehow missing for the boat exists
+            if (conferenceInput.getConferenceName().equals("") )
+                throw new WebApplicationException("Missing ConferenceName, can't update");
+
+            em.getTransaction().begin();
+            Conference conference = em.find(Conference.class, conferenceInput.getConferenceName());
+            if (conference == null) //Check if boat exists in DB
+                throw new WebApplicationException("Couldn't find any conference with name: " + conferenceInput.getConferenceName());
+            conference.setCapacity(conferenceInput.getCapacity());    //If you only wanna update if these attributes contain data put them inside an if() statement!
+            conference.setLocation(conferenceInput.getLocation());      //If you only wanna update if these attributes contain data put them inside an if() statement!
+            conference.setStrDate(conferenceInput.getStrDate());    //If you only wanna update if these attributes contain data put them inside an if() statement!
+
+            //TODO: As an admin I would like to update all information about a conference, its talks, and the speakers
+            Set<Talk> talks = new LinkedHashSet<>();
+            Talk talk;
+            if (conferenceInput.getTalks().size() > 0 && conference.getTalks() != null) {
+                for (UpdateConferenceDTO.TalkDTO1 talkDTO1 : conferenceInput.getTalks()) {
+                    talk = em.find(Talk.class, talkDTO1.getId()); //Find the talk based on ID
+
+                    if (talkDTO1.getUsers().size() > 0 && talkDTO1.getUsers() != null){ //Add speakers
+                        for (UpdateConferenceDTO.TalkDTO1.UserDTO1 user : talkDTO1.getUsers()) { //loop through the speakers for the given talk
+                            User speaker = em.find(User.class, user.getUserName()); //Find speaker
+                            Role role = em.find(Role.class, "speaker");
+                            if (speaker.getRoles().contains(role))
+                                talk.addSpeaker(speaker); //Add speaker to the chosen Talk
+                            else throw new WebApplicationException("User: " + speaker.getUserName() + ", is not a a speaker. Only speakers are allowed to host talks.");
+                        }
+                    } else throw new WebApplicationException("You tried adding a talk, with no speaker!");
+
+                    talk.setConference(conference); //Update the talk's conference
+                    talks.add(talk); //Add the talk to the Set
+                }
+                conference.setTalks(talks); //Finally add all the talks to the conference!
+            } else throw new WebApplicationException("Talk set empty or null.");
+
+            em.merge(conference);
+            em.flush();
+            em.getTransaction().commit();
+            return new UpdateConferenceDTO(conference);
+        } catch (Exception e) {
+            throw new WebApplicationException("Failed to update boat");
         } finally {
             em.close();
         }

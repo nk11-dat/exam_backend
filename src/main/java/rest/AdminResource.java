@@ -4,9 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.ConferenceDTO;
 import dtos.TalkDTO;
+import dtos.UpdateConferenceDTO;
 import dtos.UserDTO;
+import entities.Role;
+import entities.User;
 import facades.AdminFacade;
 import facades.UserFacade;
+import security.errorhandling.AuthenticationException;
 import utils.EMF_Creator;
 
 import javax.annotation.security.RolesAllowed;
@@ -17,7 +21,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -106,6 +113,36 @@ public class AdminResource
         UserDTO newSpeaker = userFacade.createUser(userDTO);
         return GSON.toJson(newSpeaker);
     }
+    //TODO: US6 = As an admin I would like to update all information about a conference, its talks, and the speakers
+    @PUT
+    @Path("put/conference")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed("admin")
+    public String updateBoat(String input) {
+        //TODO: US5 As an admin I would like to update all information about a boat, its owner and its harbour
+//        User users = null;
+//        try {
+//            users = userFacade.getVeryfiedUser("nicki", "qwer");
+//        } catch (AuthenticationException e) {
+//            throw new RuntimeException(e);
+//        }
+//        List<String> roles = new ArrayList<>();
+//        users.getRoles().forEach(role -> roles.add(role.getRoleName()));
+//
+//        Set<UpdateConferenceDTO.TalkDTO1.UserDTO1> userDTO1s = new LinkedHashSet<>();
+//        userDTO1s.add(new UpdateConferenceDTO.TalkDTO1.UserDTO1(users.getUserName(), roles));
+////        new UpdateConferenceDTO.TalkDTO1.UserDTO1(users.getUserName(), roles);
+//        Set<UpdateConferenceDTO.TalkDTO1> talkDTO1s = new LinkedHashSet<>();
+//        talkDTO1s.add(new UpdateConferenceDTO.TalkDTO1(1, "cheesecake", userDTO1s));
+//
+//        UpdateConferenceDTO test = new UpdateConferenceDTO("Abe", "her", 1337, "2025-12-12", talkDTO1s);
+//        return GSON.toJson(test);
+        UpdateConferenceDTO conferenceInput = GSON.fromJson(input, UpdateConferenceDTO.class);
+        UpdateConferenceDTO updatedConference = adminFacade.updateConference(conferenceInput);
+        return GSON.toJson(updatedConference);
+    }
+
 
     //TODO: US7 = As an admin I would like to delete a talk
     @Path("delete/talk/{id}")
