@@ -49,7 +49,7 @@ public class AdminResource
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String userResourceReached() {
-        return "{\"msg\":\"User Resource is working!\"}";
+        return "{\"msg\":\"Admin Resource is working!\"}";
     }
 
     @GET
