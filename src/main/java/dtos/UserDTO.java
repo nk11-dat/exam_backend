@@ -44,9 +44,9 @@ public class UserDTO implements Serializable
     public UserDTO(User user) {
         this.userName = user.getUserName();
         this.userPass = user.getUserPass();
-        if (!user.getProfession().equals(""))
+        if (user.getProfession() != null && !user.getProfession().equals(""))
             this.profession = user.getProfession();
-        if (!user.getGender().equals(""))
+        if (user.getGender() != null && !user.getGender().equals(""))
             this.gender = user.getGender();
     }
 
