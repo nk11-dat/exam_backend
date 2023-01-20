@@ -59,7 +59,11 @@ public class UserFacade {
         EntityManager em = emf.createEntityManager();
         try
         {
-            User user = new User(userDTO.getUserName(), userDTO.getUserPass());
+            User user;
+            if (!userDTO.getGender().equals("") && !userDTO.getProfession().equals(""))
+                user = new User(userDTO.getUserName(), userDTO.getUserPass(), userDTO.getProfession(), userDTO.getGender());
+            else
+                user = new User(userDTO.getUserName(), userDTO.getUserPass());
             em.getTransaction().begin();
             Role role = em.find(Role.class, "speaker");
             user.addRole(role);

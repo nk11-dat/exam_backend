@@ -19,14 +19,21 @@ public class UserDTO implements Serializable
     @NotNull
     @Size(min = 1, max = 255)
     private final String userPass;
-//    @Size(max = 45)
-//    private final String address;
-//    @Size(max = 45)
-//    private final String phone;
+    @Size(max = 45)
+    private String profession;
+    @Size(max = 45)
+    private String gender;
 
     public UserDTO(String userName, String userPass) {
         this.userName = userName;
         this.userPass = userPass;
+    }
+
+    public UserDTO(String userName, String userPass, String profession, String gender) {
+        this.userName = userName;
+        this.userPass = userPass;
+        this.profession = profession;
+        this.gender = gender;
     }
 
     public UserDTO(String userName) {
@@ -37,8 +44,10 @@ public class UserDTO implements Serializable
     public UserDTO(User user) {
         this.userName = user.getUserName();
         this.userPass = user.getUserPass();
-//        this.address = user.getAddress();
-//        this.phone = user.getPhone();
+        if (!user.getProfession().equals(""))
+            this.profession = user.getProfession();
+        if (!user.getGender().equals(""))
+            this.gender = user.getGender();
     }
 
     public String getUserName() {
@@ -49,13 +58,13 @@ public class UserDTO implements Serializable
         return userPass;
     }
 
-//    public String getAddress() {
-//        return address;
-//    }
-//
-//    public String getPhone() {
-//        return phone;
-//    }
+    public String getProfession() {
+        return profession;
+    }
+
+    public String getGender() {
+        return gender;
+    }
 
     public static List<UserDTO> getDTOs(List<User> users)
     {
@@ -86,8 +95,11 @@ public class UserDTO implements Serializable
 
     @Override
     public String toString() {
-        return "UserInnerDTO{" +
+        return "UserDTO{" +
                 "userName='" + userName + '\'' +
+                ", userPass='" + userPass + '\'' +
+                ", profession='" + profession + '\'' +
+                ", gender='" + gender + '\'' +
                 '}';
     }
 }
