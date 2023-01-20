@@ -141,4 +141,19 @@ public class UserFacade {
             em.close();
         }
     }
+
+    public List<TalkDTO> getTalksBySpeaker(String userName) {
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+            TypedQuery<Talk> query = em.createQuery("SELECT t FROM Talk t JOIN t.users tu WHERE tu.userName= :name", Talk.class);
+            query.setParameter("name", userName);
+            List<Talk> talks = query.getResultList();
+            return TalkDTO.getDTOs(talks);
+        }
+        finally
+        {
+            em.close();
+        }
+    }
 }

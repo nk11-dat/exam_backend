@@ -3,6 +3,7 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.ConferenceDTO;
+import dtos.TalkDTO;
 import dtos.UserDTO;
 import facades.UserFacade;
 import utils.EMF_Creator;
@@ -57,6 +58,16 @@ public class UserResource
         //US1 = As a user I would like to see all conferences
         List<ConferenceDTO> conferenceDTOList = FACADE.getAllConferences();
         return GSON.toJson(conferenceDTOList);
+    }
+
+    @GET
+    @Path("talksBySpeaker/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"speaker", "admin"})
+    public String getTalksBySpeaker(@PathParam("name") String name) {
+        //US1 = As a user I would like to see all conferences
+        List<TalkDTO> talks = FACADE.getTalksBySpeaker(name);
+        return GSON.toJson(talks);
     }
 
     //TODO: HUSK NÅR DU LAVER NY Resource AT TILFØJE DEN TIL ApplicationConfig!!!

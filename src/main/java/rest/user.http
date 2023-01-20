@@ -17,38 +17,8 @@ GET http://localhost:8080/exam/api/user/all/conferences
 Content-Type: application/json
 x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuaWNraSIsInJvbGVzIjoic3BlYWtlciIsImV4cCI6MTY3NDE3Njc0NSwiaWF0IjoxNjc0MTc0OTQ1LCJpc3N1ZXIiOiJzZW1lc3RlcnN0YXJ0Y29kZS1kYXQzIiwidXNlcm5hbWUiOiJuaWNraSJ9.zS6qujXumpYNnXM1mclXNvis_46k5UXtLcpT94a_IPo
 
-
-
-#Gamle eksempler:
-### POST boat
-POST http://localhost:8080/practice/api/admin/boat
+### Get All conferences
+GET http://localhost:8080/exam/api/user/talksBySpeaker/nicki
 Content-Type: application/json
-x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJleHAiOjE2NzM4MTYyNDMsImlhdCI6MTY3MzgxNDQ0MywiaXNzdWVyIjoic2VtZXN0ZXJzdGFydGNvZGUtZGF0MyIsInVzZXJuYW1lIjoiYWRtaW4ifQ.cvvNeDkDDF5YDXOoW_im0IpcYnZZ8S5rZvzPBJimEgE
+x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuaWNraSIsInJvbGVzIjoic3BlYWtlciIsImV4cCI6MTY3NDE5MDMyOSwiaWF0IjoxNjc0MTg4NTI5LCJpc3N1ZXIiOiJzZW1lc3RlcnN0YXJ0Y29kZS1kYXQzIiwidXNlcm5hbWUiOiJuaWNraSJ9.3zj64WIlxN8qJAS5vCmwTcqTpmArQMSjwv65Xg8bjUk
 
-{
-  "brand": "testbrand",
-  "make": "2023",
-  "image": "www.test.dk"
-}
-
-### PUT boat
-PUT http://localhost:8080/practice/api/admin/boat
-Content-Type: application/json
-x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJleHAiOjE2NzM4MTYyNDMsImlhdCI6MTY3MzgxNDQ0MywiaXNzdWVyIjoic2VtZXN0ZXJzdGFydGNvZGUtZGF0MyIsInVzZXJuYW1lIjoiYWRtaW4ifQ.cvvNeDkDDF5YDXOoW_im0IpcYnZZ8S5rZvzPBJimEgE
-
-{
-  "boatId": 29,
-  "brand": "p",
-  "make": "44",
-  "image": "put",
-  "harbourId": 3,
-  "userNames": [
-    "Bo Bobsen",
-    "user"
-  ]
-}
-
-### delete boat
-DELETE http://localhost:8080/practice/api/admin/boat/29
-Content-Type: application/json
-x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJleHAiOjE2NzM4MTYyNDMsImlhdCI6MTY3MzgxNDQ0MywiaXNzdWVyIjoic2VtZXN0ZXJzdGFydGNvZGUtZGF0MyIsInVzZXJuYW1lIjoiYWRtaW4ifQ.cvvNeDkDDF5YDXOoW_im0IpcYnZZ8S5rZvzPBJimEgE
