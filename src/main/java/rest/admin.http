@@ -31,6 +31,27 @@ x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJ
   "duration": 242,
   "propsList": "4L Brandevin"
 }
+
+### Update Talk
+PUT http://localhost:8080/exam/api/admin/put/talk
+Content-Type: application/json
+x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJleHAiOjE2NzQxODIwMzIsImlhdCI6MTY3NDE4MDIzMiwiaXNzdWVyIjoic2VtZXN0ZXJzdGFydGNvZGUtZGF0MyIsInVzZXJuYW1lIjoiYWRtaW4ifQ.tmMal0voT6MIrvluSZCSRTB5e3kF-hcNbwB7ZHIKzCs
+
+{
+  "id": 1,
+  "conferenceConferenceName": "Abe",
+  "topic": "Burde sove",
+  "duration": 60,
+  "propsList": "Dyne og hovedpude",
+  "users": [
+    {
+      "userName": "nicki",
+      "profession": "Student",
+      "gender": "Male"
+    }
+  ]
+}
+
 ### Update Conference
 PUT http://localhost:8080/exam/api/admin/put/conference
 Content-Type: application/json

@@ -33,35 +33,9 @@ public class TalkDTO implements Serializable
     private String propsList;
     private Set<UserDTO> users;
 
-    public TalkDTO(String topic, Integer duration, String propsList) {
-        this.topic = topic;
-        this.duration = duration;
-        this.propsList = propsList;
-    }
-
-    public TalkDTO(String conferenceConferenceName, String topic, Integer duration, String propsList) {
-        this.conferenceConferenceName = conferenceConferenceName;
-        this.topic = topic;
-        this.duration = duration;
-        this.propsList = propsList;
-    }
-
-    public TalkDTO(String conferenceConferenceName, String conferenceLocation, Integer conferenceCapacity, String conferenceStrDate, String topic, Integer duration, String propsList) {
-        this.conferenceConferenceName = conferenceConferenceName;
-        this.conferenceLocation = conferenceLocation;
-        this.conferenceCapacity = conferenceCapacity;
-        this.conferenceStrDate = conferenceStrDate;
-        this.topic = topic;
-        this.duration = duration;
-        this.propsList = propsList;
-    }
-
-    public TalkDTO(Integer id, String conferenceConferenceName, String conferenceLocation, Integer conferenceCapacity, String conferenceStrDate, String topic, Integer duration, String propsList, Set<UserDTO> users) {
+    public TalkDTO(Integer id, String conferenceConferenceName, String topic, Integer duration, String propsList, Set<UserDTO> users) {
         this.id = id;
         this.conferenceConferenceName = conferenceConferenceName;
-        this.conferenceLocation = conferenceLocation;
-        this.conferenceCapacity = conferenceCapacity;
-        this.conferenceStrDate = conferenceStrDate;
         this.topic = topic;
         this.duration = duration;
         this.propsList = propsList;
@@ -168,24 +142,30 @@ public class TalkDTO implements Serializable
     {
         @Size(max = 25)
         private final String userName;
-        @Size(max = 255)
-        @NotNull
-        private final String userPass;
+//        @Size(max = 255)
+//        @NotNull
+//        private final String userPass;
         @Size(max = 45)
         private final String profession;
         @Size(max = 20)
         private final String gender;
 
-        public UserDTO(String userName, String userPass, String profession, String gender) {
+//        public UserDTO(String userName, String userPass, String profession, String gender) {
+//            this.userName = userName;
+//            this.userPass = userPass;
+//            this.profession = profession;
+//            this.gender = gender;
+//        }
+
+
+        public UserDTO(String userName, String profession, String gender) {
             this.userName = userName;
-            this.userPass = userPass;
             this.profession = profession;
             this.gender = gender;
         }
 
         public UserDTO(User user) {
             this.userName = user.getUserName();
-            this.userPass = user.getUserPass();
             this.profession = user.getProfession();
             this.gender = user.getGender();
         }
@@ -194,9 +174,9 @@ public class TalkDTO implements Serializable
             return userName;
         }
 
-        public String getUserPass() {
-            return userPass;
-        }
+//        public String getUserPass() {
+//            return userPass;
+//        }
 
         public String getProfession() {
             return profession;
@@ -212,21 +192,19 @@ public class TalkDTO implements Serializable
             if (o == null || getClass() != o.getClass()) return false;
             UserDTO entity = (UserDTO) o;
             return Objects.equals(this.userName, entity.userName) &&
-                    Objects.equals(this.userPass, entity.userPass) &&
                     Objects.equals(this.profession, entity.profession) &&
                     Objects.equals(this.gender, entity.gender);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(userName, userPass, profession, gender);
+            return Objects.hash(userName, profession, gender);
         }
 
         @Override
         public String toString() {
             return getClass().getSimpleName() + "(" +
                     "userName = " + userName + ", " +
-                    "userPass = " + userPass + ", " +
                     "profession = " + profession + ", " +
                     "gender = " + gender + ")";
         }

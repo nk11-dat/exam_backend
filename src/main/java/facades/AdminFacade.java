@@ -29,7 +29,6 @@ public class AdminFacade
     }
 
     /**
-     *
      * @param _emf
      * @return the instance of this facade.
      */
@@ -55,11 +54,9 @@ public class AdminFacade
         return user;
     }
 
-    public UserDTO createSpeaker(UserDTO userDTO)
-    {
+    public UserDTO createSpeaker(UserDTO userDTO) {
         EntityManager em = emf.createEntityManager();
-        try
-        {
+        try {
 
             em.getTransaction().begin();
             User temp = em.find(User.class, userDTO.getUserName());
@@ -72,18 +69,14 @@ public class AdminFacade
             em.persist(user);
             em.getTransaction().commit();
             return new UserDTO(user);
-        }
-        finally
-        {
+        } finally {
             em.close();
         }
     }
 
-    public ConferenceDTO createConference(ConferenceDTO conferenceDTO)
-    {
+    public ConferenceDTO createConference(ConferenceDTO conferenceDTO) {
         EntityManager em = emf.createEntityManager();
-        try
-        {
+        try {
             em.getTransaction().begin();
             Conference temp = em.find(Conference.class, conferenceDTO.getConferenceName());
             if (temp != null) {
@@ -94,18 +87,14 @@ public class AdminFacade
             em.persist(conference);
             em.getTransaction().commit();
             return new ConferenceDTO(conference);
-        }
-        finally
-        {
+        } finally {
             em.close();
         }
     }
 
-    public TalkDTO createTalk(TalkDTO talkDTO)
-    {
+    public TalkDTO createTalk(TalkDTO talkDTO) {
         EntityManager em = emf.createEntityManager();
-        try
-        {
+        try {
             em.getTransaction().begin();
             Conference con = em.find(Conference.class, talkDTO.getConferenceConferenceName());
             if (con == null)
@@ -115,9 +104,7 @@ public class AdminFacade
             em.persist(talk);
             em.getTransaction().commit();
             return new TalkDTO(talk);
-        }
-        finally
-        {
+        } finally {
             em.close();
         }
     }
@@ -128,7 +115,7 @@ public class AdminFacade
             em.getTransaction().begin();
             Talk talkToDelete = em.find(Talk.class, talkId);
             if (talkToDelete == null)
-                throw new WebApplicationException("Failed to delete talk, reason: Couldn't find talk with ID: "+talkId);
+                throw new WebApplicationException("Failed to delete talk, reason: Couldn't find talk with ID: " + talkId);
             em.remove(talkToDelete);
 
             em.flush();
@@ -145,7 +132,7 @@ public class AdminFacade
         EntityManager em = emf.createEntityManager();
         try {
             //Check if ID is somehow missing for the boat exists
-            if (conferenceInput.getConferenceName().equals("") )
+            if (conferenceInput.getConferenceName().equals(""))
                 throw new WebApplicationException("Missing ConferenceName, can't update");
 
             em.getTransaction().begin();
@@ -163,13 +150,14 @@ public class AdminFacade
                 for (UpdateConferenceDTO.TalkDTO1 talkDTO1 : conferenceInput.getTalks()) {
                     talk = em.find(Talk.class, talkDTO1.getId()); //Find the talk based on ID
 
-                    if (talkDTO1.getUsers().size() > 0 && talkDTO1.getUsers() != null){ //Add speakers
+                    if (talkDTO1.getUsers().size() > 0 && talkDTO1.getUsers() != null) { //Add speakers
                         for (UpdateConferenceDTO.TalkDTO1.UserDTO1 user : talkDTO1.getUsers()) { //loop through the speakers for the given talk
                             User speaker = em.find(User.class, user.getUserName()); //Find speaker
                             Role role = em.find(Role.class, "speaker");
                             if (speaker.getRoles().contains(role))
                                 talk.addSpeaker(speaker); //Add speaker to the chosen Talk
-                            else throw new WebApplicationException("User: " + speaker.getUserName() + ", is not a a speaker. Only speakers are allowed to host talks.");
+                            else
+                                throw new WebApplicationException("User: " + speaker.getUserName() + ", is not a a speaker. Only speakers are allowed to host talks.");
                         }
                     } else throw new WebApplicationException("You tried adding a talk, with no speaker!");
 
@@ -184,7 +172,46 @@ public class AdminFacade
             em.getTransaction().commit();
             return new UpdateConferenceDTO(result);
         } catch (Exception e) {
-            throw new WebApplicationException("Failed to update boat");
+            throw new WebApplicationException("Failed to update Conference...");
+        } finally {
+            em.close();
+        }
+    }
+
+    public TalkDTO updateTalk(TalkDTO talkDTO) {
+        EntityManager em = emf.createEntityManager();
+        try { //TODO: As an admin I would like to update a talk to change a speaker
+            //Check if ID is somehow missing for the boat exists
+            if (talkDTO.getId() == null)
+                throw new WebApplicationException("Missing talkId, can't update");
+
+            em.getTransaction().begin();
+            Talk talk = em.find(Talk.class, talkDTO.getId());
+            if (talk == null) //Check if boat exists in DB
+                throw new WebApplicationException("Couldn't find any Talk with Id: " + talkDTO.getId());
+            talk.setDuration(talkDTO.getDuration());    //If you only wanna update if these attributes contain data put them inside an if() statement!
+            talk.setTopic(talkDTO.getTopic());      //If you only wanna update if these attributes contain data put them inside an if() statement!
+            talk.setPropsList(talkDTO.getPropsList());    //If you only wanna update if these attributes contain data put them inside an if() statement!
+
+            //TODO: As an admin I would like to update all information about a conference, its talks, and the speakers
+            Set<User> users = new LinkedHashSet<>();
+            User user;
+            if (talkDTO.getUsers().size() > 0 && talk.getUsers() != null) {
+                for (TalkDTO.UserDTO userDTO : talkDTO.getUsers()) {
+                    user = em.find(User.class, userDTO.getUserName()); //Find the talk based on ID
+                    if (user == null)
+                        throw new WebApplicationException("Couldn't find speaker with username: " + userDTO.getUserName());
+                    users.add(user);
+                }
+                talk.setUsers(users); //Finally add all the talks to the conference!
+            } else throw new WebApplicationException("Users set empty or null.");
+
+            Talk result = em.merge(talk);
+            em.flush();
+            em.getTransaction().commit();
+            return new TalkDTO(talk);
+        } catch (Exception e) {
+            throw new WebApplicationException("Failed to update talk...");
         } finally {
             em.close();
         }

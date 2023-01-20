@@ -124,13 +124,35 @@ public class AdminResource
         UserDTO newSpeaker = userFacade.createUser(userDTO);
         return GSON.toJson(newSpeaker);
     }
+
+    @PUT
+    @Path("put/talk")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed("admin")
+    public String updateTalk(String input) {
+//        User user;
+//        try {
+//            user = userFacade.getVeryfiedUser("nicki", "qwer");
+//        } catch (AuthenticationException e) {
+//            throw new RuntimeException(e);
+//        }
+//        Set<TalkDTO.UserDTO> users = new LinkedHashSet<>();
+//        users.add(new TalkDTO.UserDTO(user));
+//        TalkDTO talkDTO = new TalkDTO(1, "Abe", "Burde sove", 60, "Dyne og hovedpude", users);
+//        return GSON.toJson(talkDTO);
+        TalkDTO talkInput = GSON.fromJson(input, TalkDTO.class);
+        TalkDTO updatedTalk = adminFacade.updateTalk(talkInput);
+        return GSON.toJson(updatedTalk);
+    }
+
     //TODO: US6 = As an admin I would like to update all information about a conference, its talks, and the speakers
     @PUT
     @Path("put/conference")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed("admin")
-    public String updateBoat(String input) {
+    public String updateConference(String input) {
         //TODO: US5 As an admin I would like to update all information about a boat, its owner and its harbour
 //        User users = null;
 //        try {

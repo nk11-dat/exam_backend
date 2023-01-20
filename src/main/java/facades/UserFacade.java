@@ -7,6 +7,7 @@ import dtos.UserDTO;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import javax.ws.rs.WebApplicationException;
 
 import entities.Conference;
 import entities.Role;
@@ -67,6 +68,11 @@ public class UserFacade {
             em.getTransaction().begin();
             Role role = em.find(Role.class, "speaker");
             user.addRole(role);
+
+            User temp = em.find(User.class, userDTO.getUserName());
+            if (temp != null)
+                throw new WebApplicationException("A user(speaker), with this username already exists: " + userDTO.getUserName());
+
             em.persist(user);
             em.getTransaction().commit();
             return new UserDTO(user);
