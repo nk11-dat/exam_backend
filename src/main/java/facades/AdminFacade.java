@@ -179,10 +179,10 @@ public class AdminFacade
                 conference.setTalks(talks); //Finally add all the talks to the conference!
             } else throw new WebApplicationException("Talk set empty or null.");
 
-            em.merge(conference);
+            Conference result = em.merge(conference);
             em.flush();
             em.getTransaction().commit();
-            return new UpdateConferenceDTO(conference);
+            return new UpdateConferenceDTO(result);
         } catch (Exception e) {
             throw new WebApplicationException("Failed to update boat");
         } finally {

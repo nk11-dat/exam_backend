@@ -98,16 +98,8 @@ public class UpdateConferenceDTO implements Serializable
     public static class TalkDTO1 implements Serializable
     {
         private final Integer id;
-//        @Size(max = 45)
-//        @NotNull
-//        private final String topic;
         private final Set<UserDTO1> users;
 
-//        public TalkDTO1(Integer id, String topic, Set<UserDTO1> users) {
-//            this.id = id;
-//            this.topic = topic;
-//            this.users = users;
-//        }
 
         public TalkDTO1(Integer id, Set<UserDTO1> users) {
             this.id = id;

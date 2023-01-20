@@ -19,10 +19,22 @@ x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJ
   "strDate": "2025-01-19",
   "talks": []
 }
+
+### Create talk
+POST http://localhost:8080/exam/api/admin/post/talk
+Content-Type: application/json
+x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJleHAiOjE2NzQxNzM2OTIsImlhdCI6MTY3NDE3MTg5MiwiaXNzdWVyIjoic2VtZXN0ZXJzdGFydGNvZGUtZGF0MyIsInVzZXJuYW1lIjoiYWRtaW4ifQ.yJhvdQbE-HK7cFG5CBZxCL_YTLr3Okr84nTDbRfIWR0
+
+{
+  "conferenceConferenceName": "Test1",
+  "topic": "totalOpgivende2",
+  "duration": 242,
+  "propsList": "4L Brandevin"
+}
 ### Update Conference
 PUT http://localhost:8080/exam/api/admin/put/conference
 Content-Type: application/json
-x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJleHAiOjE2NzQxNTQ1ODEsImlhdCI6MTY3NDE1Mjc4MSwiaXNzdWVyIjoic2VtZXN0ZXJzdGFydGNvZGUtZGF0MyIsInVzZXJuYW1lIjoiYWRtaW4ifQ.wSpvxYnKt9EIGL4G9wGeSj4m3kjFBaDQ2ZpRi0IanQY
+x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJleHAiOjE2NzQxNjQyMTUsImlhdCI6MTY3NDE2MjQxNSwiaXNzdWVyIjoic2VtZXN0ZXJzdGFydGNvZGUtZGF0MyIsInVzZXJuYW1lIjoiYWRtaW4ifQ.RgItPOoZ0Rt8700-ryRuOAdszh9JRf8TH6XElhAfimg
 
 {
   "conferenceName": "Test1",

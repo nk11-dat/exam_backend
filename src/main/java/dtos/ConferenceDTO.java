@@ -2,7 +2,9 @@ package dtos;
 
 import entities.Conference;
 import entities.Talk;
+import entities.User;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -108,11 +110,22 @@ public class ConferenceDTO implements Serializable
         @Size(max = 45)
         private final String propsList;
 
-        public TalkDTO(Integer id, String topic, Integer duration, String propsList) {
+        private final Set<UserDTO> users;
+
+//        public TalkDTO(Integer id, String topic, Integer duration, String propsList) {
+//            this.id = id;
+//            this.topic = topic;
+//            this.duration = duration;
+//            this.propsList = propsList;
+//        }
+
+
+        public TalkDTO(Integer id, String topic, Integer duration, String propsList, Set<UserDTO> users) {
             this.id = id;
             this.topic = topic;
             this.duration = duration;
             this.propsList = propsList;
+            this.users = users;
         }
 
         public TalkDTO(Talk talk) {
@@ -120,6 +133,8 @@ public class ConferenceDTO implements Serializable
             this.topic = talk.getTopic();
             this.duration = talk.getDuration();
             this.propsList = talk.getPropsList();
+            this.users = new LinkedHashSet<>();
+            talk.getUsers().forEach(user -> this.users.add(new UserDTO(user)));
         }
 
         public Integer getId() {
@@ -156,11 +171,70 @@ public class ConferenceDTO implements Serializable
 
         @Override
         public String toString() {
-            return getClass().getSimpleName() + "(" +
-                    "id = " + id + ", " +
-                    "topic = " + topic + ", " +
-                    "duration = " + duration + ", " +
-                    "propsList = " + propsList + ")";
+            return "TalkDTO{" +
+                    "id=" + id +
+                    ", topic='" + topic + '\'' +
+                    ", duration=" + duration +
+                    ", propsList='" + propsList + '\'' +
+                    ", users=" + users +
+                    '}';
+        }
+
+        public static class UserDTO implements Serializable
+        {
+            @Size(max = 25)
+            private final String userName;
+            @Size(max = 45)
+            private final String profession;
+
+            @Size(max = 20)
+            private final String gender;
+
+            public UserDTO(String userName, String profession, String gender) {
+                this.userName = userName;
+                this.profession = profession;
+                this.gender = gender;
+            }
+
+            public UserDTO(User user) {
+                this.userName = user.getUserName();
+                this.profession = user.getProfession();
+                this.gender = user.getGender();
+            }
+
+            public String getUserName() {
+                return userName;
+            }
+
+            public String getProfession() {
+                return profession;
+            }
+
+            public String getGender() {
+                return gender;
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                ConferenceDTO.TalkDTO.UserDTO entity = (ConferenceDTO.TalkDTO.UserDTO) o;
+                return Objects.equals(this.userName, entity.userName);
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(userName);
+            }
+
+            @Override
+            public String toString() {
+                return "UserDTO{" +
+                        "userName='" + userName + '\'' +
+                        ", profession='" + profession + '\'' +
+                        ", gender='" + gender + '\'' +
+                        '}';
+            }
         }
     }
 }

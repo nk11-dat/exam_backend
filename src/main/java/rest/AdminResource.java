@@ -80,6 +80,15 @@ public class AdminResource
         return GSON.toJson(talkDTOList);
     }
 
+    @GET
+    @Path("specific/conference/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"speaker", "admin"})
+    public String getSpecificConference(@PathParam("name") String conName) {
+        ConferenceDTO conferenceDTO = userFacade.getSpecificConference(conName);
+        return GSON.toJson(conferenceDTO);
+    }
+
     //TODO: US4 = As an admin I would like to create new conferences, talks and speakers
     @POST
     @Path("post/conference")
@@ -98,6 +107,8 @@ public class AdminResource
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed("admin")
     public String createTalk(String input) { //As an admin I would like to create new talks
+//        TalkDTO test = new TalkDTO("Test1", "ingen Steder", 43, "2023-02-02", "totalOpgivende", 24, "3L Brandevin");
+//        return GSON.toJson(test);
         TalkDTO talkInput = GSON.fromJson(input, TalkDTO.class);
         TalkDTO createdTalk = adminFacade.createTalk(talkInput);
         return GSON.toJson(createdTalk);

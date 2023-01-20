@@ -33,6 +33,29 @@ public class TalkDTO implements Serializable
     private String propsList;
     private Set<UserDTO> users;
 
+    public TalkDTO(String topic, Integer duration, String propsList) {
+        this.topic = topic;
+        this.duration = duration;
+        this.propsList = propsList;
+    }
+
+    public TalkDTO(String conferenceConferenceName, String topic, Integer duration, String propsList) {
+        this.conferenceConferenceName = conferenceConferenceName;
+        this.topic = topic;
+        this.duration = duration;
+        this.propsList = propsList;
+    }
+
+    public TalkDTO(String conferenceConferenceName, String conferenceLocation, Integer conferenceCapacity, String conferenceStrDate, String topic, Integer duration, String propsList) {
+        this.conferenceConferenceName = conferenceConferenceName;
+        this.conferenceLocation = conferenceLocation;
+        this.conferenceCapacity = conferenceCapacity;
+        this.conferenceStrDate = conferenceStrDate;
+        this.topic = topic;
+        this.duration = duration;
+        this.propsList = propsList;
+    }
+
     public TalkDTO(Integer id, String conferenceConferenceName, String conferenceLocation, Integer conferenceCapacity, String conferenceStrDate, String topic, Integer duration, String propsList, Set<UserDTO> users) {
         this.id = id;
         this.conferenceConferenceName = conferenceConferenceName;

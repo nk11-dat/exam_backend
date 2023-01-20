@@ -116,4 +116,19 @@ public class UserFacade {
             em.close();
         }
     }
+
+    public ConferenceDTO getSpecificConference(String name) {
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+            TypedQuery<Conference> query = em.createQuery("SELECT c FROM Conference c WHERE c.conferenceName = :name", Conference.class);
+            query.setParameter("name", name);
+            Conference conference = query.getSingleResult();
+            return new ConferenceDTO(conference);
+        }
+        finally
+        {
+            em.close();
+        }
+    }
 }
