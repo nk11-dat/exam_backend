@@ -42,6 +42,8 @@ public class TalkDTO implements Serializable
         this.users = users;
     }
 
+
+
     public TalkDTO(Talk talk) {
         this.id = talk.getId();
         if (talk.getConference() != null){ //needed for delete talk
@@ -145,10 +147,10 @@ public class TalkDTO implements Serializable
 //        @Size(max = 255)
 //        @NotNull
 //        private final String userPass;
-        @Size(max = 45)
-        private final String profession;
-        @Size(max = 20)
-        private final String gender;
+//        @Size(max = 45)
+//        private final String profession;
+//        @Size(max = 20)
+//        private final String gender;
 
 //        public UserDTO(String userName, String userPass, String profession, String gender) {
 //            this.userName = userName;
@@ -158,16 +160,16 @@ public class TalkDTO implements Serializable
 //        }
 
 
-        public UserDTO(String userName, String profession, String gender) {
+        public UserDTO(String userName) {
             this.userName = userName;
-            this.profession = profession;
-            this.gender = gender;
+//            this.profession = profession;
+//            this.gender = gender;
         }
 
         public UserDTO(User user) {
             this.userName = user.getUserName();
-            this.profession = user.getProfession();
-            this.gender = user.getGender();
+//            this.profession = user.getProfession();
+//            this.gender = user.getGender();
         }
 
         public String getUserName() {
@@ -178,35 +180,31 @@ public class TalkDTO implements Serializable
 //            return userPass;
 //        }
 
-        public String getProfession() {
-            return profession;
-        }
-
-        public String getGender() {
-            return gender;
-        }
+//        public String getProfession() {
+//            return profession;
+//        }
+//
+//        public String getGender() {
+//            return gender;
+//        }
 
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             UserDTO entity = (UserDTO) o;
-            return Objects.equals(this.userName, entity.userName) &&
-                    Objects.equals(this.profession, entity.profession) &&
-                    Objects.equals(this.gender, entity.gender);
+            return Objects.equals(this.userName, entity.userName);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(userName, profession, gender);
+            return Objects.hash(userName);
         }
 
         @Override
         public String toString() {
             return getClass().getSimpleName() + "(" +
-                    "userName = " + userName + ", " +
-                    "profession = " + profession + ", " +
-                    "gender = " + gender + ")";
+                    "userName = " + userName + ", " + ")";
         }
     }
 }

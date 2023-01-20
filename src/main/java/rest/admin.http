@@ -35,7 +35,7 @@ x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJ
 ### Update Talk
 PUT http://localhost:8080/exam/api/admin/put/talk
 Content-Type: application/json
-x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJleHAiOjE2NzQxODIwMzIsImlhdCI6MTY3NDE4MDIzMiwiaXNzdWVyIjoic2VtZXN0ZXJzdGFydGNvZGUtZGF0MyIsInVzZXJuYW1lIjoiYWRtaW4ifQ.tmMal0voT6MIrvluSZCSRTB5e3kF-hcNbwB7ZHIKzCs
+x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJleHAiOjE2NzQxODQ0NjcsImlhdCI6MTY3NDE4MjY2NywiaXNzdWVyIjoic2VtZXN0ZXJzdGFydGNvZGUtZGF0MyIsInVzZXJuYW1lIjoiYWRtaW4ifQ.yrJxuoRx8_S4XoSvLJkYb3LXvOTNkokM9eyLV2ACaG8
 
 {
   "id": 1,
@@ -45,9 +45,10 @@ x-Access-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJ
   "propsList": "Dyne og hovedpude",
   "users": [
     {
-      "userName": "nicki",
-      "profession": "Student",
-      "gender": "Male"
+      "userName": "nicki"
+    },
+    {
+      "userName": "Sovetid"
     }
   ]
 }
